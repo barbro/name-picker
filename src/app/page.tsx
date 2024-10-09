@@ -1,27 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { useListsStore } from "@/store/listsStore";
+import { useParticipantsStore } from "@/store/participantsStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import NameEnteringView from "@/components/views/NameEnteringView";
-import NamePickingView from "@/components/views/NamePickingView";
+import NameEnteringView from "@/components/views/ParticipantsEnteringView";
+import ParticipantsPickingView from "@/components/views/ParticipantsPickingView";
 import PickingDoneView from "@/components/views/PickingDoneView";
 
 const Home = () => {
-  const [newName, setNewName] = useState("");
-  const {
-    nameList,
-    orderedNames,
-    enterName,
-    updateOrder,
-    readName,
-    getUnreadNames,
-    getReadNames,
-    getCurrentName,
-  } = useListsStore();
+  const getUnreadParticipants = useParticipantsStore(
+    (state) => state.getUnreadParticipants
+  );
 
   return (
     <>
@@ -39,8 +31,8 @@ const Home = () => {
               <NameEnteringView />
             </TabsContent>
             <TabsContent value="nameDisplay">
-              {getUnreadNames().length === 0 ? (
-                <NamePickingView />
+              {getUnreadParticipants().length === 0 ? (
+                <ParticipantsPickingView />
               ) : (
                 <PickingDoneView />
               )}

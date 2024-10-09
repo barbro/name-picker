@@ -1,7 +1,6 @@
-type NameList = Name[];
+type ParticipantList = Participant[];
 
-type Name = {
+type Participant = {
   name: string;
   id: string;
-  read: boolean;
 };
