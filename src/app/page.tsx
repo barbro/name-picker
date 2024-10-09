@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NameEnteringView from "@/components/views/ParticipantsEnteringView";
 import ParticipantsPickingView from "@/components/views/ParticipantsPickingView";
 import PickingDoneView from "@/components/views/PickingDoneView";
+import PickingView from "@/components/views/PickingView";
 
 const Home = () => {
   const getUnreadParticipants = useParticipantsStore(
@@ -31,11 +32,7 @@ const Home = () => {
               <NameEnteringView />
             </TabsContent>
             <TabsContent value="nameDisplay">
-              {getUnreadParticipants().length === 0 ? (
-                <ParticipantsPickingView />
-              ) : (
-                <PickingDoneView />
-              )}
+              <PickingView />
             </TabsContent>
           </Tabs>
         </CardContent>

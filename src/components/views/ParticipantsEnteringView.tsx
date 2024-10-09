@@ -55,14 +55,14 @@ const ParticipantEnteringView = () => {
   };
 
   const setEditingParticipant = (id: string) => {
-    const currentName = getParticipantById(id)?.name || "";
+    const currentName = getParticipantById(id).name;
     setEditedName(currentName);
     setEditingParticipantId(id);
   };
 
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-2">
         <Input
           placeholder="הכנס שם"
           value={currentName}
@@ -70,11 +70,11 @@ const ParticipantEnteringView = () => {
           onKeyDown={(e) => tryEnteringParticipant(e)}
         />
         <Button
-          variant="outline"
           size="icon"
+          className="px-12"
           onClick={() => enterParticipant(currentName)}
         >
-          <Edit className="h-3 w-3" />
+          הוסף
         </Button>
       </div>
       <Table>
@@ -93,7 +93,7 @@ const ParticipantEnteringView = () => {
                       defaultValue={participant.name}
                       autoFocus
                       onChange={(e) => setEditedName(e.currentTarget.value)}
-                      value={editedName === "" ? participant.name : editedName}
+                      value={editedName}
                       onBlur={nameEditApply}
                       onKeyDown={nameEditonKeyDown}
                     />

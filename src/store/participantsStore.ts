@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { produce } from "immer";
 import { ListOrdered } from "lucide-react";
+import { createParticipant, scrambleList } from "@/lib/participantsUtils";
 
 type ParticipantsList = {
   participantList: ParticipantList;
@@ -72,10 +73,11 @@ export const useParticipantsStore = create<ParticipantStore>((set, get) => ({
     const foundParticipant = get().participantList.find(
       (participant) => participant.id === id
     );
-    foundParticipant
+    return foundParticipant
       ? foundParticipant
       : createParticipant("participant not found");
   },
+
   readParticipant: () => {
     set((state) => {
       return produce(state, (draft) => {
@@ -104,18 +106,3 @@ export const useParticipantsStore = create<ParticipantStore>((set, get) => ({
   //   });
   // },
 }));
-
-const scrambleList = (list: number[]): number[] => {
-  return [...list].sort(() => Math.random() - 0.5);
-};
-
-const createParticipant = (
-  participantString: string,
-  read = false
-): Participant => {
-  return {
-    name: participantString,
-    id: crypto.randomUUID(),
-    read,
-  };
-};
