@@ -2,58 +2,47 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { ListOrdered } from "lucide-react";
 
-type ParticipantsLists = {
+type ParticipantsList = {
   participantList: ParticipantList;
   orderedParticipants: number[];
-  unreadParticipants: number[];
 };
-interface ParticipantStore extends ParticipantsLists {
-  setEnteredParticipants: (participantLists: ParticipantsLists) => void;
+interface ParticipantStore extends ParticipantsList {
+  setEnteredParticipants: (participantsLists: ParticipantsList) => void;
   enterParticipant: (participantString: string) => void;
   updateOrder: () => void;
   updateParticipant: (id: string, participantString: string) => void;
   readParticipant: () => void;
   deleteParticipant: (id: string) => void;
+  getUnreadParticipants: () => ParticipantList;
   getReadParticipants: () => ParticipantList;
   getCurrentParticipant: () => Participant;
-  getParticipantById: (id: string) => Participant | undefined;
+  getParticipantById: (id: string) => Participant;
 }
 
 export const useParticipantsStore = create<ParticipantStore>((set, get) => ({
   participantList: [],
   orderedParticipants: [],
-  unreadParticipants: [],
 
-  setEnteredParticipants: (participantLists: ParticipantsLists) =>
-    set(() => ({ ...participantLists })),
+  setEnteredParticipants: (participantsLists: ParticipantsList) =>
+    set({ ...participantsLists }),
 
   enterParticipant: (participantString: string) => {
     if (participantString === "") return;
     const participant: Participant = createParticipant(participantString);
-    const newParticipantId = get().participantList.length;
     set((state) =>
       produce(state, (draft) => {
-        draft.unreadParticipants.push(newParticipantId);
         draft.participantList.push(participant);
       })
     );
   },
 
   deleteParticipant: (id: string) => {
-    const idDeletion = get().participantList.findIndex(
-      (participant) => participant.id === id
-    );
-    const unreadIdDeletion = get().unreadParticipants.findIndex(
-      (participant) => participant === idDeletion
-    );
-
-    if (idDeletion === -1) return;
-
     set((state) => {
       return produce(state, (draft) => {
-        draft.participantList.splice(idDeletion, 1);
-        unreadIdDeletion >= 0 &&
-          draft.unreadParticipants.splice(unreadIdDeletion, 1);
+        const index = draft.participantList.findIndex(
+          (participant) => participant.id === id
+        );
+        draft.participantList.splice(index, 1);
       });
     });
   },
@@ -80,7 +69,12 @@ export const useParticipantsStore = create<ParticipantStore>((set, get) => ({
     }),
 
   getParticipantById: (id: string) => {
-    return get().participantList.find((participant) => participant.id === id);
+    const foundParticipant = get().participantList.find(
+      (participant) => participant.id === id
+    );
+    foundParticipant
+      ? foundParticipant
+      : createParticipant("participant not found");
   },
   readParticipant: () => {
     set((state) => {
@@ -115,9 +109,13 @@ const scrambleList = (list: number[]): number[] => {
   return [...list].sort(() => Math.random() - 0.5);
 };
 
-const createParticipant = (participantName: string): Participant => {
+const createParticipant = (
+  participantString: string,
+  read = false
+): Participant => {
   return {
-    name: participantName,
+    name: participantString,
     id: crypto.randomUUID(),
+    read,
   };
 };

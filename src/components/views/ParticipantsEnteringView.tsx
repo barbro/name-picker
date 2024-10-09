@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -16,9 +16,6 @@ import { Edit, Pencil, Trash2 } from "lucide-react";
 const ParticipantEnteringView = () => {
   const getUnreadparticipant = useParticipantsStore(
     (state) => state.getUnreadParticipants
-  );
-  unreadPraticipants = useParticipantsStore(
-    (state) => state.unreadParticipants
   );
   const getParticipantById = useParticipantsStore(
     (state) => state.getParticipantById
@@ -63,9 +60,7 @@ const ParticipantEnteringView = () => {
   };
 
   console.log(getUnreadparticipant());
-  useEffect(() => {
-    console.log(getUnreadparticipant());
-  }, [getUnreadparticipant()]);
+
   return (
     <>
       <div className="flex justify-center">
@@ -90,7 +85,7 @@ const ParticipantEnteringView = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {unreadparticipant.map((participant) => (
+          {getUnreadparticipant().map((participant) => (
             <>
               <TableRow key={`${participant.id}-row`}>
                 <TableCell key={`${participant.id}-cell`}>
