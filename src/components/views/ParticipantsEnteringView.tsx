@@ -13,14 +13,14 @@ import { useParticipantsStore } from "@/store/participantsStore";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Edit, Pencil, Trash2 } from "lucide-react";
+import { ParticipantReadStatus } from "@/lib/participantsUtils";
 const ParticipantEnteringView = () => {
-  const getUnreadparticipant = useParticipantsStore(
-    (state) => state.getUnreadParticipants
-  );
+  const participants = useParticipantsStore((state) => state.participantList);
+  const [unreadParticipants, readParticipants] =
+    ParticipantReadStatus(participants);
   const getParticipantById = useParticipantsStore(
     (state) => state.getParticipantById
   );
-  const [editingParticipantId, setEditingParticipantId] = useState<string>("");
   const enterParticipant = useParticipantsStore(
     (state) => state.enterParticipant
   );
@@ -30,6 +30,7 @@ const ParticipantEnteringView = () => {
   const deleteParticipant = useParticipantsStore(
     (state) => state.deleteParticipant
   );
+  const [editingParticipantId, setEditingParticipantId] = useState<string>("");
   const [currentName, setCurrentName] = React.useState<string>("");
   const [editedName, setEditedName] = React.useState<string>("");
 
@@ -59,8 +60,6 @@ const ParticipantEnteringView = () => {
     setEditingParticipantId(id);
   };
 
-  console.log(getUnreadparticipant());
-
   return (
     <>
       <div className="flex justify-center">
@@ -85,7 +84,7 @@ const ParticipantEnteringView = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {getUnreadparticipant().map((participant) => (
+          {unreadParticipants.map((participant) => (
             <>
               <TableRow key={`${participant.id}-row`}>
                 <TableCell key={`${participant.id}-cell`}>
