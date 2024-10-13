@@ -1,32 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParticipantsStore } from "@/store/participantsStore";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NameEnteringView from "@/components/views/ParticipantsEnteringView";
-import ParticipantsPickingView from "@/components/views/ParticipantsPickingView";
-import PickingDoneView from "@/components/views/PickingDoneView";
-import PickingView from "@/components/views/PickingView";
+import PickingView from "@/components/views/pickingViews/PickingView";
 
 const Home = () => {
-  const getUnreadParticipants = useParticipantsStore(
-    (state) => state.getUnreadParticipants
-  );
-
   return (
     <>
-      <Card className="max-w-3xl mx-auto">
+      <Card className="xl mx-auto max-w-2xl">
         <CardHeader>
-          <CardTitle>בוחר שמות</CardTitle>
+          <CardTitle className="text-center">בוחר משתתפים</CardTitle>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="nameEntering" className="max-w-5xl" dir="rtl">
-            <TabsList>
+          <Tabs
+            defaultValue="nameEntering"
+            className="flex flex-col justify-center"
+            dir="rtl"
+          >
+            <TabsList className="grid min-w-32 grid-cols-2">
               <TabsTrigger value="nameEntering">הזנת שמות</TabsTrigger>
-              <TabsTrigger value="nameDisplay">רשימת שמות</TabsTrigger>
+              <TabsTrigger value="nameDisplay">הגרלת שמות</TabsTrigger>
             </TabsList>
             <TabsContent value="nameEntering">
               <NameEnteringView />
