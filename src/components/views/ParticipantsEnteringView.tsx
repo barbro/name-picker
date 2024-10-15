@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useParticipantsStore } from "@/store/storesMiddlewares";
+import { useParticipantsStore } from "@/store/stores";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Edit, Pencil, Trash2 } from "lucide-react";
