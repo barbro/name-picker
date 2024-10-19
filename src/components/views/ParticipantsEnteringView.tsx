@@ -1,61 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
 import { useParticipantsStore } from "@/store/stores";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Edit, Pencil, Trash2 } from "lucide-react";
 import { ParticipantReadStatus } from "@/lib/participantsUtils";
 import ParticipantsTable from "../ParticipantsTable";
+import ParticipantInput from "../ParticipantInput";
+import { useTranslation } from "react-i18next";
+import EnteringOptions from "../EnteringOptions";
 const ParticipantEnteringView = () => {
   const participants = useParticipantsStore((state) => state.participantList);
   const [unreadParticipants, readParticipants] =
     ParticipantReadStatus(participants);
-
-  const getParticipantById = useParticipantsStore(
-    (state) => state.getParticipantById,
-  );
-  const enterParticipant = useParticipantsStore(
-    (state) => state.enterParticipant,
-  );
-
-  const [currentName, setCurrentName] = React.useState<string>("");
-
-  const tryEnteringParticipant = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      enterParticipant(currentName);
-      setCurrentName("");
-    }
-  };
-
+  const { t } = useTranslation();
   return (
     <>
-      <div className="flex justify-center gap-2">
-        <Input
-          placeholder="הכנס שם"
-          value={currentName}
-          onChange={(e) => setCurrentName(e.currentTarget.value)}
-          onKeyDown={(e) => tryEnteringParticipant(e)}
-        />
-        <Button
-          size="icon"
-          className="px-12"
-          onClick={() => enterParticipant(currentName)}
-        >
-          הוסף
-        </Button>
-      </div>
+      <ParticipantInput />
+      <EnteringOptions />
       <div className="flex flex-col gap-2">
         {unreadParticipants.length > 0 && (
           <ParticipantsTable
             participants={unreadParticipants}
-            tableName={"לא נקראו"}
+            tableName={t("unreadTableName")}
           />
         )}
         {readParticipants.length > 0 && (
           <ParticipantsTable
             participants={readParticipants}
-            tableName={"נקראו"}
+            tableName={t("readTableName")}
           />
         )}
       </div>

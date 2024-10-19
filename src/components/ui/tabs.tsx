@@ -4,6 +4,7 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/lib/utils";
+import i18next from "@/lib/i18n/i18n";
 
 const Tabs = TabsPrimitive.Root;
 
@@ -12,7 +13,7 @@ const TabsList = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
-    dir="rtl"
+    dir={i18next.dir()}
     ref={ref}
     className={cn(
       "inline-flex h-9 flex-shrink items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground",
