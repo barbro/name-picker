@@ -2,8 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
-import "@/lib/i18n/i18n";
-import i18next from "@/lib/i18n/i18n";
+import "@/features/localisation/i18n";
+import i18next from "@/features/localisation/i18n";
 import { LangugeButton } from "@/components/LangugeButton";
 import ViewingTabs from "@/components/ViewingTabs";
 import { Toaster } from "@/components/ui/sonner";
