@@ -21,7 +21,7 @@ const EnteringOptions = () => {
   const clearParticipants = useParticipantsStore(
     (state) => state.clearParticipants,
   );
-  const participants = useParticipantsStore((state) => state.participantList);
+  const participants = useParticipantsStore((state) => state.participants);
 
   const handleClearParticipants = () => {
     clearParticipants();

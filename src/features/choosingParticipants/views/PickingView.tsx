@@ -6,7 +6,7 @@ import { ParticipantReadStatus } from "@/features/participants/lib/participantsU
 import { useParticipantsStore } from "@/store/stores";
 
 const PickingView = () => {
-  const participants = useParticipantsStore((state) => state.participantList);
+  const participants = useParticipantsStore((state) => state.participants);
   const unreadParticipants = ParticipantReadStatus(participants)[0];
 
   return (

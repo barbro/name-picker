@@ -1,18 +1,20 @@
 {
   "appName": "Participant Picker",
+  "entering": "Entering View",
+  "picking": "Picking View",
+  "startPresenting": "press button to see participants",
+  "choosenParticipant": "current  participant",
+  "nextParticipant": "next participant",
+  "startPicking": "",
+  "noParticipants": "No participants enetered",
+  "allParticipantsRead": "all participants have been read",
   "noParticipantsToDelete": "No participants to delete",
   "clearNames": "clear participants",
   "clearNamesDialog": "sure you want to delete all participants?",
   "cancel": "cancel",
   "delete": "delete",
+  "duplicateName": "name already exists in the list",
   "placeholderName": "Name",
-  "enterNameButton": "Enter name",
-  "entering": "Entering View",
-  "picking": "Picking View",
   "unreadTableName": "Unread",
-  "readTableName": "Read",
-  "choosenParticipant": "current  participant",
-  "nextParticipant": "next participant",
-  "noParticipants": "No participants enetered",
-  "allParticipantsRead": "all participants have been read"
+  "readTableName": "Read"
 }

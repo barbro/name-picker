@@ -4,12 +4,14 @@ import { Input } from "../../../components/ui/input";
 import { Button } from "../../../components/ui/button";
 import { useTranslation } from "react-i18next";
 import { PlusCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const ParticipantInput = () => {
   const { t } = useTranslation();
   const enterParticipant = useParticipantsStore(
     (state) => state.enterParticipant,
   );
+  const participants = useParticipantsStore((state) => state.participants);
 
   const [currentName, setCurrentName] = useState<string>("");
 
@@ -22,6 +24,12 @@ const ParticipantInput = () => {
 
   const enterParticipantHandler = () => {
     if (currentName === "") return;
+    if (
+      participants.filter((participant) => participant.name === currentName)
+        .length > 0
+    )
+      return toast(t("duplicateName"));
+
     enterParticipant(currentName);
     setCurrentName("");
   };

@@ -7,7 +7,7 @@ import ParticipantInput from "../components/ParticipantInput";
 import { useTranslation } from "react-i18next";
 import EnteringOptions from "../components/EnteringOptions";
 const ParticipantEnteringView = () => {
-  const participants = useParticipantsStore((state) => state.participantList);
+  const participants = useParticipantsStore((state) => state.participants);
   const [unreadParticipants, readParticipants] =
     ParticipantReadStatus(participants);
   const { t } = useTranslation();

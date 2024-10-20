@@ -6,7 +6,7 @@ import {
 } from "@/features/participants/lib/participantsUtils";
 
 type ParticipantsList = {
-  participantList: ParticipantList;
+  participants: ParticipantList;
   orderedParticipants: number[];
 };
 export interface ParticipantStore extends ParticipantsList {
@@ -23,7 +23,7 @@ export const ParticipantStoreInit: StateCreator<
   ParticipantStore,
   StandardMiddlewares
 > = (set, get) => ({
-  participantList: [],
+  participants: [],
   orderedParticipants: [],
 
   enterParticipant: (participantName: string) => {
@@ -31,20 +31,20 @@ export const ParticipantStoreInit: StateCreator<
       if (participantName === "") return;
       const participant = createParticipant(participantName);
 
-      state.participantList[state.participantList.length] = participant;
+      state.participants[state.participants.length] = participant;
     });
     get().updateOrder();
   },
 
   clearParticipants: () => {
     set((state) => {
-      state.participantList = [];
+      state.participants = [];
       state.orderedParticipants = [];
     });
   },
   deleteParticipant: (id: string) => {
     set((state) => {
-      const participantIndex = state.participantList.findIndex(
+      const participantIndex = state.participants.findIndex(
         (participant: Participant) => participant.id === id,
       );
 
@@ -52,7 +52,7 @@ export const ParticipantStoreInit: StateCreator<
         (participant) => participant === participantIndex,
       );
 
-      state.participantList.splice(participantIndex, 1);
+      state.participants.splice(participantIndex, 1);
       state.orderedParticipants.splice(orderedIndex, 1);
     });
     get().updateOrder();
@@ -61,22 +61,22 @@ export const ParticipantStoreInit: StateCreator<
   updateOrder: () =>
     set((state) => {
       state.orderedParticipants = scrambleList(
-        state.participantList
+        state.participants
           .filter((participant) => !participant.read)
-          .map((participant) => state.participantList.indexOf(participant)),
+          .map((participant) => state.participants.indexOf(participant)),
       );
     }),
 
   updateParticipant: (id: string, participantName: string) =>
     set((state) => {
-      const index = state.participantList.findIndex(
+      const index = state.participants.findIndex(
         (participant) => participant.id === id,
       );
-      state.participantList[index].name = participantName;
+      state.participants[index].name = participantName;
     }),
 
   getParticipantById: (id: string) => {
-    const foundParticipant = get().participantList.find(
+    const foundParticipant = get().participants.find(
       (participant) => participant.id === id,
     );
     return foundParticipant
@@ -88,10 +88,10 @@ export const ParticipantStoreInit: StateCreator<
     set((state) => {
       const [firstElement, ...restOfElements] = state.orderedParticipants;
       state.orderedParticipants = restOfElements;
-      state.participantList[firstElement as number].read = true;
+      state.participants[firstElement as number].read = true;
     });
   },
   getOrderdParticipant: (orderedIndex = 0) => {
-    return get().participantList[get().orderedParticipants[orderedIndex || 0]];
+    return get().participants[get().orderedParticipants[orderedIndex || 0]];
   },
 });
