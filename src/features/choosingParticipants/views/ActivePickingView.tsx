@@ -20,7 +20,7 @@ const ActivePickingView = () => {
   useEffect(() => {
     updateOrder();
     setAppear(true);
-  });
+  }, [updateOrder]);
 
   const wait = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));

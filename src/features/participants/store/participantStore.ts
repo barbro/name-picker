@@ -29,7 +29,7 @@ export const ParticipantStoreInit: StateCreator<
   enterParticipant: (participantName: string) => {
     set((state) => {
       if (participantName === "") return;
-      const participant: Participant = createParticipant(participantName);
+      const participant = createParticipant(participantName);
 
       state.participantList[state.participantList.length] = participant;
     });
@@ -45,7 +45,7 @@ export const ParticipantStoreInit: StateCreator<
   deleteParticipant: (id: string) => {
     set((state) => {
       const participantIndex = state.participantList.findIndex(
-        (participant) => participant.id === id,
+        (participant: Participant) => participant.id === id,
       );
 
       const orderedIndex = state.orderedParticipants.findIndex(
@@ -55,6 +55,7 @@ export const ParticipantStoreInit: StateCreator<
       state.participantList.splice(participantIndex, 1);
       state.orderedParticipants.splice(orderedIndex, 1);
     });
+    get().updateOrder();
   },
 
   updateOrder: () =>
@@ -91,12 +92,6 @@ export const ParticipantStoreInit: StateCreator<
     });
   },
   getOrderdParticipant: (orderedIndex = 0) => {
-    return get().participantList[get().orderedParticipants[orderedIndex]];
+    return get().participantList[get().orderedParticipants[orderedIndex || 0]];
   },
-
-  // templateFunction: () => {
-  //   set((state) => {
-  //     return produce(state, (draft) => {});
-  //   });
-  // },
 });
