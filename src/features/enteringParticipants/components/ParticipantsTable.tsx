@@ -50,8 +50,8 @@ const ParticipantsTable = ({
       <p className="mx-4 text-muted-foreground">{tableName}</p>
       <div className="flex flex-col gap-2 rounded-md p-2 shadow">
         {participants.map((participant, index) => (
-          <span className="flex flex-col gap-2">
-            <div key={participant.id} className="flex items-center gap-2">
+          <span key={`$(participant.id)-span`} className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="icon"

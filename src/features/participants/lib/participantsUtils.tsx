@@ -4,7 +4,7 @@ export const scrambleList = (list: number[]): number[] => {
 
 export const createParticipant = (
   participantString: string,
-  read = false
+  read = false,
 ): Participant => {
   return {
     name: participantString,
@@ -13,10 +13,10 @@ export const createParticipant = (
   };
 };
 export const ParticipantReadStatus = (
-  participants: ParticipantList
+  participants: ParticipantList,
 ): [ParticipantList, ParticipantList] => {
-  let unreadparticipants: ParticipantList = [];
-  let readparticipants: ParticipantList = [];
+  const unreadparticipants: ParticipantList = [];
+  const readparticipants: ParticipantList = [];
 
   participants.forEach((participant) => {
     if (participant.read) {
