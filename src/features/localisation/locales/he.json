@@ -1,0 +1,18 @@
+{
+  "appName": "בוחר משתתפים",
+  "noParticipantsToDelete": "אין משתתפים למחיקה",
+  "clearNames": "נקה משתתפים",
+  "clearNamesDialog": "האם אתה בטוח שברצונך למחוק את כל המשתתפים?",
+  "cancel": "ביטול",
+  "delete": "מחק",
+  "placeholderName": "שם",
+  "enterNameButton": "הכנס שם",
+  "entering": "הזנת שמות",
+  "picking": "הגרלת שמות",
+  "unreadTableName": "לא נקראו",
+  "readTableName": "נקראו",
+  "choosenParticipant": "משתתף נוכחי",
+  "nextParticipant": "משתתף הבא",
+  "noParticipants": "לא הוכנסו משתתפים",
+  "allParticipantsRead": "כל המשתתפים נקראו"
+}

@@ -1,0 +1,18 @@
+{
+  "appName": "Participant Picker",
+  "noParticipantsToDelete": "No participants to delete",
+  "clearNames": "clear participants",
+  "clearNamesDialog": "sure you want to delete all participants?",
+  "cancel": "cancel",
+  "delete": "delete",
+  "placeholderName": "Name",
+  "enterNameButton": "Enter name",
+  "entering": "Entering View",
+  "picking": "Picking View",
+  "unreadTableName": "Unread",
+  "readTableName": "Read",
+  "choosenParticipant": "current  participant",
+  "nextParticipant": "next participant",
+  "noParticipants": "No participants enetered",
+  "allParticipantsRead": "all participants have been read"
+}
