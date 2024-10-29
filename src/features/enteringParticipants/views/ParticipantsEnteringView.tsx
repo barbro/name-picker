@@ -9,15 +9,16 @@ import EnteringOptions from "../components/EnteringOptions";
 import { Separator } from "@/components/ui/separator";
 const ParticipantEnteringView = () => {
   const participants = useParticipantsStore((state) => state.participants);
-  const [unreadParticipants, readParticipants] =
-    ParticipantReadStatus(participants);
+  const [unreadParticipants, readParticipants] = ParticipantReadStatus(
+    participants,
+  );
   const { t } = useTranslation();
   return (
     <>
       <ParticipantInput />
       <div className="flex w-full flex-col gap-2 md:flex-row-reverse md:justify-end">
         <EnteringOptions />
-        <Separator />
+
         <div className="flex flex-col gap-2">
           {unreadParticipants.length > 0 && (
             <ParticipantsTable
