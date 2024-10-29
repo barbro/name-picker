@@ -7,6 +7,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -40,6 +41,8 @@ const EnteringOptions = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>{t("clearNamesDialog")}</AlertDialogTitle>
           </AlertDialogHeader>
+          <AlertDialogDescription> ""</AlertDialogDescription>
+
           <AlertDialogFooter className="gap-2">
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleClearParticipants}>

@@ -8,16 +8,18 @@ export const createParticipant = (
 ): Participant => {
   return {
     name: participantString,
-    id: crypto.randomUUID(),
+    arrayId: -1,
+    uuid: crypto.randomUUID(),
     read,
   };
 };
 export const ParticipantReadStatus = (
-  participants: ParticipantList,
-): [ParticipantList, ParticipantList] => {
-  const unreadparticipants: ParticipantList = [];
-  const readparticipants: ParticipantList = [];
+  participants: Participant[],
+): [Participant[], Participant[]] => {
+  const unreadparticipants: Participant[] = [];
+  const readparticipants: Participant[] = [];
 
+  if (participants === undefined) return [[], []];
   participants.forEach((participant) => {
     if (participant.read) {
       readparticipants.push(participant);

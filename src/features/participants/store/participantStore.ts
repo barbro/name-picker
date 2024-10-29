@@ -5,93 +5,123 @@ import {
   scrambleList,
 } from "@/features/participants/lib/participantsUtils";
 
-type ParticipantsList = {
-  participants: ParticipantList;
+type ParticipantsValues = {
+  participants: Participant[];
   orderedParticipants: number[];
+  currentParticipant: number;
 };
-export interface ParticipantStore extends ParticipantsList {
+
+export interface ParticipantStore extends ParticipantsValues {
   enterParticipant: (participantString: string) => void;
-  updateOrder: () => void;
+  updateOrdering: () => void;
   updateParticipant: (id: string, participantString: string) => void;
   readParticipant: () => void;
   deleteParticipant: (id: string) => void;
   clearParticipants: () => void;
-  getOrderdParticipant: () => Participant;
-  getParticipantById: (id: string) => Participant;
+  getParticipantById: (id: string) => Participant | void;
+  startReading: () => void;
+  getCurrentParticipant: () => Participant | void;
 }
+
 export const ParticipantStoreInit: StateCreator<
   ParticipantStore,
   StandardMiddlewares
 > = (set, get) => ({
   participants: [],
   orderedParticipants: [],
+  currentParticipant: -1,
+
+  getCurrentParticipant: () => {
+    return get().participants[get().currentParticipant];
+  },
 
   enterParticipant: (participantName: string) => {
+    if (participantName === "") return;
+    const newParticipant = createParticipant(participantName);
     set((state) => {
-      if (participantName === "") return;
-      const participant = createParticipant(participantName);
-
-      state.participants[state.participants.length] = participant;
+      state.participants = [...state.participants, newParticipant];
     });
-    get().updateOrder();
+    get().updateOrdering();
   },
 
   clearParticipants: () => {
     set((state) => {
       state.participants = [];
-      state.orderedParticipants = [];
     });
+    get().updateOrdering();
   },
+
   deleteParticipant: (id: string) => {
     set((state) => {
-      const participantIndex = state.participants.findIndex(
-        (participant: Participant) => participant.id === id,
+      state.participants = state.participants.filter(
+        (participant) => participant.uuid !== id,
       );
-
-      const orderedIndex = state.orderedParticipants.findIndex(
-        (participant) => participant === participantIndex,
-      );
-
-      state.participants.splice(participantIndex, 1);
-      state.orderedParticipants.splice(orderedIndex, 1);
     });
-    get().updateOrder();
+    get().updateOrdering();
   },
 
-  updateOrder: () =>
+  updateOrdering: () => {
     set((state) => {
-      state.orderedParticipants = scrambleList(
-        state.participants
-          .filter((participant) => !participant.read)
-          .map((participant) => state.participants.indexOf(participant)),
-      );
-    }),
+      if (state.participants.length === 0) {
+        state.orderedParticipants = [];
+        state.currentParticipant = -1;
+        return;
+      }
 
-  updateParticipant: (id: string, participantName: string) =>
+      // resetting arrayIds
+      state.participants = state.participants.map((participant, index) => ({
+        ...participant,
+        arrayId: index,
+      }));
+
+      const filteredParticipants = state.participants
+        .filter((participant) => !participant.read) // only unread participants
+        .map((participant) => participant.arrayId) // get the ids
+        .filter((id) => id !== state.currentParticipant); // not current participant id
+
+      state.orderedParticipants = scrambleList(filteredParticipants);
+    });
+  },
+
+  updateParticipant: (id: string, participantName: string) => {
     set((state) => {
-      const index = state.participants.findIndex(
-        (participant) => participant.id === id,
+      state.participants = state.participants.map((participant) =>
+        participant.uuid === id
+          ? { ...participant, name: participantName }
+          : participant,
       );
-      state.participants[index].name = participantName;
-    }),
+    });
+  },
 
   getParticipantById: (id: string) => {
-    const foundParticipant = get().participants.find(
-      (participant) => participant.id === id,
-    );
-    return foundParticipant
-      ? foundParticipant
-      : createParticipant("participant not found");
+    console.log("deprecated");
+  },
+
+  startReading: () => {
+    set((state) => {
+      state.currentParticipant = state.orderedParticipants[0];
+      state.orderedParticipants.splice(0, 1);
+    });
   },
 
   readParticipant: () => {
     set((state) => {
-      const [firstElement, ...restOfElements] = state.orderedParticipants;
-      state.orderedParticipants = restOfElements;
-      state.participants[firstElement as number].read = true;
+      if (state.currentParticipant === -1) return;
+
+      state.participants[state.currentParticipant].read = true;
+
+      if (state.orderedParticipants.length === 0) {
+        state.currentParticipant = -1;
+      } else {
+        state.currentParticipant = state.orderedParticipants[0];
+        state.orderedParticipants.splice(0, 1);
+      }
     });
   },
-  getOrderdParticipant: (orderedIndex = 0) => {
-    return get().participants[get().orderedParticipants[orderedIndex || 0]];
-  },
 });
+
+const clgState = (state: ParticipantStore) => {
+  console.log("currentParticipant: " + state.currentParticipant);
+  console.log("orderedParticipants: " + state.orderedParticipants);
+  console.log("participants: " + state.participants);
+};

@@ -50,12 +50,15 @@ const ParticipantsTable = ({
       <p className="mx-4 text-muted-foreground">{tableName}</p>
       <div className="flex flex-col gap-2 rounded-md p-2 shadow">
         {participants.map((participant, index) => (
-          <span key={`$(participant.id)-span`} className="flex flex-col gap-2">
+          <span
+            key={`${participant.uuid}-span`}
+            className="flex flex-col gap-2"
+          >
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => deleteParticipant(participant.id)}
+                onClick={() => deleteParticipant(participant.uuid)}
               >
                 <Trash2 className="h-3 w-3" />
               </Button>
@@ -63,12 +66,12 @@ const ParticipantsTable = ({
                 variant="outline"
                 size="icon"
                 onClick={() => {
-                  setEditingParticipant(participant.id);
+                  setEditingParticipant(participant.uuid);
                 }}
               >
                 <Pencil className="h-3 w-3" />
               </Button>
-              {editingParticipantId === participant.id ? (
+              {editingParticipantId === participant.uuid ? (
                 <Input
                   defaultValue={participant.name}
                   autoFocus

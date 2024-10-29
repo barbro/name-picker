@@ -1,7 +1,6 @@
-type ParticipantList = Participant[];
-
 type Participant = {
   name: string;
-  id: string;
+  arrayId: number;
+  uuid: string;
   read: boolean;
 };
