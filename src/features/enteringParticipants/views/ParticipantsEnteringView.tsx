@@ -15,10 +15,17 @@ const ParticipantEnteringView = () => {
   const { t } = useTranslation();
   return (
     <>
-      <ParticipantInput />
-      <div className="flex w-full flex-col gap-2 md:flex-row-reverse md:justify-end">
-        <EnteringOptions />
-
+      <div className="w-full md:w-[50%]">
+        <ParticipantInput />
+      </div>
+      <div className="grid grid-cols-1 w-full gap-2 md:grid-cols-2 mt-4">
+        <div className="flex order-first md:order-last gap-2">
+          <Separator
+            orientation="vertical"
+            className="hidden md:block my-3"
+          />
+          <EnteringOptions />
+        </div>
         <div className="flex flex-col gap-2">
           {unreadParticipants.length > 0 && (
             <ParticipantsTable

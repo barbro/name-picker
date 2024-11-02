@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Trash2, Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useParticipantsStore } from "@/store/stores";
@@ -27,8 +27,9 @@ const ParticipantsTable = ({
   );
 
   const nameEditApply = () => {
-    if (editedName === "") return;
-    updateParticipant(editingParticipantId, editedName);
+    if (editedName !== "") {
+      updateParticipant(editingParticipantId, editedName);
+    }
     setEditingParticipantId("");
     setEditedName("");
   };
@@ -40,7 +41,7 @@ const ParticipantsTable = ({
   };
 
   const setEditingParticipant = (id: string) => {
-    const currentName = getParticipantById(id).name;
+    const currentName = getParticipantById(id)?.name || "";
     setEditedName(currentName);
     setEditingParticipantId(id);
   };
@@ -71,18 +72,18 @@ const ParticipantsTable = ({
               >
                 <Pencil className="h-3 w-3" />
               </Button>
-              {editingParticipantId === participant.uuid ? (
-                <Input
-                  defaultValue={participant.name}
-                  autoFocus
-                  onChange={(e) => setEditedName(e.currentTarget.value)}
-                  value={editedName}
-                  onBlur={nameEditApply}
-                  onKeyDown={nameEditonKeyDown}
-                />
-              ) : (
-                <span className="min-w-32 px-3">{participant.name}</span>
-              )}
+              {editingParticipantId === participant.uuid
+                ? (
+                  <Input
+                    defaultValue={participant.name}
+                    autoFocus
+                    onChange={(e) => setEditedName(e.currentTarget.value)}
+                    value={editedName}
+                    onBlur={nameEditApply}
+                    onKeyDown={nameEditonKeyDown}
+                  />
+                )
+                : <span className="min-w-32 px-3">{participant.name}</span>}
             </div>
             {participants.length - 1 !== index && <Separator />}
           </span>

@@ -20,6 +20,7 @@ export interface ParticipantStore extends ParticipantsValues {
   clearParticipants: () => void;
   getParticipantById: (id: string) => Participant | void;
   startReading: () => void;
+  resetReadParticipants: () => void;
   getCurrentParticipant: () => Participant | void;
 }
 
@@ -44,6 +45,15 @@ export const ParticipantStoreInit: StateCreator<
     get().updateOrdering();
   },
 
+  resetReadParticipants: () => {
+    set((state) => {
+      state.participants = state.participants.map((participant) => ({
+        ...participant,
+        read: false,
+      }));
+    });
+    get().updateOrdering();
+  },
   clearParticipants: () => {
     set((state) => {
       state.participants = [];
@@ -88,13 +98,17 @@ export const ParticipantStoreInit: StateCreator<
       state.participants = state.participants.map((participant) =>
         participant.uuid === id
           ? { ...participant, name: participantName }
-          : participant,
+          : participant
       );
     });
   },
 
   getParticipantById: (id: string) => {
-    console.log("deprecated");
+    const participant = get().participants.find((participant) =>
+      participant.uuid === id
+    );
+    console.log("participant: " + participant);
+    return participant;
   },
 
   startReading: () => {

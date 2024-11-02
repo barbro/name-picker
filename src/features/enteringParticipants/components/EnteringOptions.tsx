@@ -14,13 +14,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import i18next from "i18next";
+import { cn } from "@/lib/utils";
 
-const EnteringOptions = () => {
+const EnteringOptions = ({ className }: { className?: string }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const clearParticipants = useParticipantsStore(
     (state) => state.clearParticipants,
+  );
+  const resetReadParticipants = useParticipantsStore(
+    (state) => state.resetReadParticipants,
   );
   const participants = useParticipantsStore((state) => state.participants);
 
@@ -34,14 +38,19 @@ const EnteringOptions = () => {
       : toast(t("noParticipantsToDelete"));
   };
   return (
-    <div className="my-3 flex gap-2">
-      <Button onClick={handleAlertDialog}>{t("clearNames")}</Button>
+    <div className={cn("my-3 flex gap-2 flex-col", className)}>
+      <Button variant={"outline"} onClick={handleAlertDialog}>
+        {t("clearNames")}
+      </Button>
+      <Button variant={"outline"} onClick={resetReadParticipants}>
+        {t("resetRead")}
+      </Button>
       <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent dir={i18next.dir()}>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("clearNamesDialog")}</AlertDialogTitle>
           </AlertDialogHeader>
-          <AlertDialogDescription> ""</AlertDialogDescription>
+          <AlertDialogDescription />
 
           <AlertDialogFooter className="gap-2">
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
